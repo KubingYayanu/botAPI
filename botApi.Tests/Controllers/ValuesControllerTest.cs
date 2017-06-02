@@ -17,7 +17,7 @@ namespace botApi.Tests.Controllers
         public void Get()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            LineBotController controller = new LineBotController();
 
             // 作用
             IEnumerable<string> result = controller.Get();
@@ -33,10 +33,10 @@ namespace botApi.Tests.Controllers
         public void GetById()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            LineBotController controller = new LineBotController();
 
             // 作用
-            string result = controller.Get(5);
+            HttpResponseMessage result = controller.Get("5");
 
             // 判斷提示
             Assert.AreEqual("value", result);
@@ -46,7 +46,7 @@ namespace botApi.Tests.Controllers
         public void Post()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            LineBotController controller = new LineBotController();
 
             // 作用
             controller.Post("value");
@@ -58,7 +58,7 @@ namespace botApi.Tests.Controllers
         public void Put()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            LineBotController controller = new LineBotController();
 
             // 作用
             controller.Put(5, "value");
@@ -70,7 +70,7 @@ namespace botApi.Tests.Controllers
         public void Delete()
         {
             // 排列
-            ValuesController controller = new ValuesController();
+            LineBotController controller = new LineBotController();
 
             // 作用
             controller.Delete(5);

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Web.Http;
 
 namespace botApi.Controllers
 {
-    public class ValuesController : ApiController
+    public class LineBotController : ApiController
     {
         // GET api/values
         public IEnumerable<string> Get()
@@ -16,9 +18,15 @@ namespace botApi.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public HttpResponseMessage Get(string message)
         {
-            return "value";
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "value");
+            response.Content = new StringContent(message, Encoding.Unicode,"text/html");
+            response.Headers.CacheControl = new CacheControlHeaderValue()
+            {
+                MaxAge = TimeSpan.FromMinutes(20)
+            };
+            return response;
         }
 
         // POST api/values
