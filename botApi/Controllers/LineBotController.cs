@@ -18,6 +18,12 @@ namespace botApi.Controllers
         }
 
         // GET api/values/5
+
+        public string Get(int id)
+        {
+            return "value";
+        }
+
         public HttpResponseMessage Get(string message)
         {
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, "value");
