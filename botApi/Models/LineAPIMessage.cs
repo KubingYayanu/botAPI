@@ -7,6 +7,11 @@ namespace botApi.Models
 {
     public class LineAPIMessage
     {
+        public class CustomMessage
+        {
+
+            string Message;
+        }
 
     }
 }

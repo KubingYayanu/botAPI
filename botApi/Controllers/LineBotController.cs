@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Web.Http;
+using System.Web.Http.Description;
 using botApi.Models;
 
 namespace botApi.Controllers
@@ -37,13 +38,15 @@ namespace botApi.Controllers
             return response;
         }
 
-        // POST api/values
-        public void Post([FromBody]string value)
-        {
-        }
+        //// POST api/values
+        //public string PostLineBot([FromBody]string value)
+        //{
+        //    return value;
+        //}
 
-        [HttpPost]
-        public IHttpActionResult POST()
+        //[HttpPost]
+        //[ActionName("PostMessage")]
+        public IHttpActionResult Post() 
         {
             string ChannelAccessToken = db.GetBotToken("Line");
 
@@ -57,7 +60,7 @@ namespace botApi.Controllers
                 string Message;
                 Message = "你說了:" + ReceivedMessage.events[0].message.text;
                 //回覆用戶
-                //isRock.LineBot.Utility.ReplyMessage(ReceivedMessage.events[0].replyToken, Message, ChannelAccessToken);
+                isRock.LineBot.Utility.ReplyMessage(ReceivedMessage.events[0].replyToken, Message, ChannelAccessToken);
                 //回覆API OK
                 return Ok();
             }
