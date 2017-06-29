@@ -48,9 +48,9 @@ namespace botApi.Controllers
         //[ActionName("PostMessage")]
         public IHttpActionResult Post() 
         {
-            string ChannelAccessToken = db.GetBotToken("Line");
             try
             {
+                string ChannelAccessToken = db.GetBotToken("Line");
                 string postData = Request.Content.ReadAsStringAsync().Result;
                 if (db.InsertRequestLog(postData))
                 {
@@ -63,12 +63,16 @@ namespace botApi.Controllers
                 {
                     //TODO 寫log
                 }
-                return Ok();
             }
             catch (Exception ex)
             {
-                return Ok();
+                string errorMessage = string.Format("ErrorMessage:{0},ErrorStack:{1},InnerExcepton:",
+                    ex.Message,
+                    ex.StackTrace,
+                    ex.InnerException);
+                db.InsertRequestLog(errorMessage);
             }
+            return Ok();
         }
 
         // PUT api/values/5
