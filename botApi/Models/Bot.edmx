@@ -4,36 +4,77 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BotModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BotModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'dbb4068d4a695e4da69428a79f00814362.dbo.BotData' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
         <EntityType Name="BotData">
           <Key>
             <PropertyRef Name="BotSeq" />
+            
+            
+            <PropertyRef Name="Secret" />
+            <PropertyRef Name="ChannelID" />
           </Key>
-          <Property Name="BotSeq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BotSeq" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="BotName" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Token" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Secret" Type="varchar(max)" Nullable="false" />
+          <Property Name="UserID" Type="nvarchar" MaxLength="100" />
+          <Property Name="ChannelID" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="RequestLog">
+          <Key>
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="Seq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogDate" Type="date" />
+          <Property Name="LogContent" Type="nvarchar(max)" />
+        </EntityType>
         <EntityContainer Name="BotModelStoreContainer">
-          <EntitySet Name="BotData" EntityType="Self.BotData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestLog" EntityType="Self.RequestLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BotData" EntityType="Self.BotData" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [BotData].[BotSeq] AS [BotSeq], 
+    [BotData].[BotName] AS [BotName], 
+    [BotData].[Token] AS [Token], 
+    [BotData].[Secret] AS [Secret], 
+    [BotData].[UserID] AS [UserID], 
+    [BotData].[ChannelID] AS [ChannelID], 
+    [BotData].[Description] AS [Description]
+    FROM [dbo].[BotData] AS [BotData]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BotModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="BotData">
           <Key>
             <PropertyRef Name="BotSeq" />
+            <PropertyRef Name="Secret" />
+            <PropertyRef Name="ChannelID" />
           </Key>
           <Property Name="BotSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BotName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Token" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Secret" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ChannelID" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityContainer Name="BotEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BotData" EntityType="Self.BotData" />
+          <EntitySet Name="RequestLog" EntityType="BotModel.RequestLog" />
         </EntityContainer>
+        <EntityType Name="RequestLog">
+          <Key>
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="Seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogDate" Type="DateTime" Precision="0" />
+          <Property Name="LogContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -43,10 +84,22 @@
           <EntitySetMapping Name="BotData">
             <EntityTypeMapping TypeName="BotModel.BotData">
               <MappingFragment StoreEntitySet="BotData">
+                <ScalarProperty Name="ChannelID" ColumnName="ChannelID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Secret" ColumnName="Secret" />
                 <ScalarProperty Name="BotSeq" ColumnName="BotSeq" />
                 <ScalarProperty Name="BotName" ColumnName="BotName" />
                 <ScalarProperty Name="Token" ColumnName="Token" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestLog">
+            <EntityTypeMapping TypeName="BotModel.RequestLog">
+              <MappingFragment StoreEntitySet="RequestLog">
+                <ScalarProperty Name="LogContent" ColumnName="LogContent" />
+                <ScalarProperty Name="LogDate" ColumnName="LogDate" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

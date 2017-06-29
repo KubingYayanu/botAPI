@@ -49,19 +49,20 @@ namespace botApi.Controllers
         public IHttpActionResult Post() 
         {
             string ChannelAccessToken = db.GetBotToken("Line");
-
             try
             {
-                //取得 http Post RawData(should be JSON)
                 string postData = Request.Content.ReadAsStringAsync().Result;
-                //剖析JSON
-                var ReceivedMessage = isRock.LineBot.Utility.Parsing(postData);
-                //回覆訊息
-                string Message;
-                Message = "你說了:" + ReceivedMessage.events[0].message.text;
-                //回覆用戶
-                isRock.LineBot.Utility.ReplyMessage(ReceivedMessage.events[0].replyToken, Message, ChannelAccessToken);
-                //回覆API OK
+                if (db.InsertRequestLog(postData))
+                {
+                    var ReceivedMessage = isRock.LineBot.Utility.Parsing(postData);
+                    //會有exception
+                    string Message = "你說了:" + ReceivedMessage.events[0].message.text;
+                    isRock.LineBot.Utility.ReplyMessage(ReceivedMessage.events[0].replyToken, Message, ChannelAccessToken);
+                }
+                else
+                {
+                    //TODO 寫log
+                }
                 return Ok();
             }
             catch (Exception ex)

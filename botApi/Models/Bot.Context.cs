@@ -26,5 +26,6 @@ namespace botApi.Models
         }
     
         public virtual DbSet<BotData> BotData { get; set; }
+        public virtual DbSet<RequestLog> RequestLog { get; set; }
     }
 }

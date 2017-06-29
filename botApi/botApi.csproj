@@ -186,6 +186,9 @@
     <Compile Include="Models\BotRepository.cs" />
     <Compile Include="Models\DTO\BotDTO.cs" />
     <Compile Include="Models\LineAPIMessage.cs" />
+    <Compile Include="Models\RequestLog.cs">
+      <DependentUpon>Bot.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

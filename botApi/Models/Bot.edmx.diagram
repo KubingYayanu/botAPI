@@ -6,6 +6,7 @@
     <edmx:Diagrams>
       <Diagram DiagramId="95a41d4967b14fd186438f8942452c9c" Name="Diagram1">
         <EntityTypeShape EntityType="BotModel.BotData" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BotModel.RequestLog" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

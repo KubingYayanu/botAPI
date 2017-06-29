@@ -17,5 +17,22 @@ namespace botApi.Models
             return BotToken;
 
         }
+
+        public bool InsertRequestLog(string LogContent)
+        {
+            RequestLog newRequestLog = new RequestLog();
+            newRequestLog.LogDate = DateTime.Now;
+            newRequestLog.LogContent = LogContent;
+            try
+            {
+                DB.RequestLog.Add(newRequestLog);
+                DB.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }
