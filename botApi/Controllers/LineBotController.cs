@@ -63,6 +63,7 @@ namespace botApi.Controllers
                 {
                     //TODO 寫log
                 }
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -71,8 +72,9 @@ namespace botApi.Controllers
                     ex.StackTrace,
                     ex.InnerException);
                 db.InsertRequestLog(errorMessage);
+                return Ok(errorMessage);
             }
-            return Ok();
+           
         }
 
         // PUT api/values/5
