@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BotModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BotModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--產生期間發現錯誤:
 警告 6002: 資料表/檢視 'dbb4068d4a695e4da69428a79f00814362.dbo.BotData' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
         <EntityType Name="BotData">
@@ -23,6 +23,37 @@
           <Property Name="ChannelID" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="CurInfo">
+          <Key>
+            <PropertyRef Name="CurChtName" />
+          </Key>
+          <Property Name="CurAbName" Type="nchar" MaxLength="3" Nullable="false" />
+          <Property Name="CurChtName" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <!--產生期間發現錯誤:
+警告 6002: 資料表/檢視 'dbb4068d4a695e4da69428a79f00814362.dbo.ExRate' 未定義主索引鍵。已推斷此索引鍵，並將定義建立成唯讀的資料表/檢視。-->
+        <EntityType Name="ExRate">
+          <Key>
+            <PropertyRef Name="ExDate" />
+            <PropertyRef Name="Cur" />
+            <PropertyRef Name="ExBRate" />
+            <PropertyRef Name="ExSRate" />
+          </Key>
+          <Property Name="ExDate" Type="date" Nullable="false" />
+          <Property Name="Cur" Type="nchar" MaxLength="3" Nullable="false" />
+          <Property Name="ExBRate" Type="decimal" Precision="8" Scale="5" Nullable="false" />
+          <Property Name="ExSRate" Type="decimal" Precision="8" Scale="5" Nullable="false" />
+        </EntityType>
+        <EntityType Name="NLPInfo">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NLPName" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="appid" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="appKey" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WebHookURL" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="RequestLog">
           <Key>
             <PropertyRef Name="Seq" />
@@ -32,6 +63,8 @@
           <Property Name="LogContent" Type="nvarchar(max)" />
         </EntityType>
         <EntityContainer Name="BotModelStoreContainer">
+          <EntitySet Name="CurInfo" EntityType="Self.CurInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NLPInfo" EntityType="Self.NLPInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequestLog" EntityType="Self.RequestLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BotData" EntityType="Self.BotData" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -43,6 +76,14 @@
     [BotData].[ChannelID] AS [ChannelID], 
     [BotData].[Description] AS [Description]
     FROM [dbo].[BotData] AS [BotData]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ExRate" EntityType="Self.ExRate" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ExRate].[ExDate] AS [ExDate], 
+    [ExRate].[Cur] AS [Cur], 
+    [ExRate].[ExBRate] AS [ExBRate], 
+    [ExRate].[ExSRate] AS [ExSRate]
+    FROM [dbo].[ExRate] AS [ExRate]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -66,6 +107,9 @@
         <EntityContainer Name="BotEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="BotData" EntityType="Self.BotData" />
           <EntitySet Name="RequestLog" EntityType="BotModel.RequestLog" />
+          <EntitySet Name="NLPInfo" EntityType="BotModel.NLPInfo" />
+          <EntitySet Name="CurInfo" EntityType="BotModel.CurInfo" />
+          <EntitySet Name="ExRate" EntityType="BotModel.ExRate" />
         </EntityContainer>
         <EntityType Name="RequestLog">
           <Key>
@@ -74,6 +118,35 @@
           <Property Name="Seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LogDate" Type="DateTime" Precision="0" />
           <Property Name="LogContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="NLPInfo">
+          <Key>
+            <PropertyRef Name="No" />
+          </Key>
+          <Property Name="No" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NLPName" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="WebHookURL" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="appid" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="appKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="CurInfo">
+          <Key>
+            <PropertyRef Name="CurChtName" />
+          </Key>
+          <Property Name="CurAbName" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="CurChtName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ExRate">
+          <Key>
+            <PropertyRef Name="ExDate" />
+            <PropertyRef Name="Cur" />
+            <PropertyRef Name="ExBRate" />
+            <PropertyRef Name="ExSRate" />
+          </Key>
+          <Property Name="ExDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Cur" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="true" />
+          <Property Name="ExBRate" Type="Decimal" Nullable="false" Precision="8" Scale="5" />
+          <Property Name="ExSRate" Type="Decimal" Nullable="false" Precision="8" Scale="5" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -100,6 +173,35 @@
                 <ScalarProperty Name="LogContent" ColumnName="LogContent" />
                 <ScalarProperty Name="LogDate" ColumnName="LogDate" />
                 <ScalarProperty Name="Seq" ColumnName="Seq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NLPInfo">
+            <EntityTypeMapping TypeName="BotModel.NLPInfo">
+              <MappingFragment StoreEntitySet="NLPInfo">
+                <ScalarProperty Name="appKey" ColumnName="appKey" />
+                <ScalarProperty Name="appid" ColumnName="appid" />
+                <ScalarProperty Name="WebHookURL" ColumnName="WebHookURL" />
+                <ScalarProperty Name="NLPName" ColumnName="NLPName" />
+                <ScalarProperty Name="No" ColumnName="No" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CurInfo">
+            <EntityTypeMapping TypeName="BotModel.CurInfo">
+              <MappingFragment StoreEntitySet="CurInfo">
+                <ScalarProperty Name="CurChtName" ColumnName="CurChtName" />
+                <ScalarProperty Name="CurAbName" ColumnName="CurAbName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ExRate">
+            <EntityTypeMapping TypeName="BotModel.ExRate">
+              <MappingFragment StoreEntitySet="ExRate">
+                <ScalarProperty Name="ExSRate" ColumnName="ExSRate" />
+                <ScalarProperty Name="ExBRate" ColumnName="ExBRate" />
+                <ScalarProperty Name="Cur" ColumnName="Cur" />
+                <ScalarProperty Name="ExDate" ColumnName="ExDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

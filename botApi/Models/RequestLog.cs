@@ -18,5 +18,4 @@ namespace botApi.Models
         public Nullable<System.DateTime> LogDate { get; set; }
         public string LogContent { get; set; }
     }
-
 }
