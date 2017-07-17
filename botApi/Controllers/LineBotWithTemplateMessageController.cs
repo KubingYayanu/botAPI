@@ -18,6 +18,7 @@ namespace botApi.Controllers
             {
                 //Get Message
                 string postData = Request.Content.ReadAsStringAsync().Result;
+                db.InsertRequestLog(postData);
                 var RequestBody = isRock.LineBot.Utility.Parsing(postData);
                 string Message = RequestBody.events[0].message.text;
                 string ChannelAccessToken = db.GetBotToken("Line");
