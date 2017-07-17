@@ -171,7 +171,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineBotController.cs" />
     <Compile Include="Controllers\LineBotWithLUISController.cs" />
-    <Compile Include="Controllers\LineBotWithTemplateMessage.cs" />
+    <Compile Include="Controllers\LineBotWithTemplateMessageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace botApi.Controllers
 {
-    public class LineBotWithTemplateMessage : ApiController
+    public class LineBotWithTemplateMessageController : ApiController
     {
         BotRepository db = new BotRepository();
         public async Task<IHttpActionResult> Post()
