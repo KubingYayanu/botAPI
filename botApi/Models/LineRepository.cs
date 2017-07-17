@@ -63,7 +63,7 @@ namespace botApi.Models
             var TemplateMessages =  db.Database.SqlQuery<BotTemplateMessage>(@"
 SELECT A.*
   FROM dbo.BotTemplateMessage A
- INNER JOIN dbo.BotInfo B 
+ INNER JOIN dbo.BotData B 
     ON A.BotSeq = BotSeq
  WHERE B.BotName = 'LINE' 
    AND A.Type = 'Menu'" ,  "");
