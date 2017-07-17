@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace botApi.Models
 {
@@ -45,9 +44,10 @@ namespace botApi.Models
 
         public NLPInfo GetNLPInfo(string NLPName)
         {
-            return DB.NLPInfo.AsQueryable().Where(o => o.NLPName == NLPName).FirstOrDefault();
+            return DB.NLPInfo.AsQueryable()
+                    .Where(o => o.NLPName == NLPName)
+                    .FirstOrDefault();
         }
-
         /// 判斷User查詢內容
         /// <summary>
         /// 判斷User查詢內容
@@ -56,10 +56,24 @@ namespace botApi.Models
         /// <returns></returns>
         public string GetResult(Microsoft.Cognitive.LUIS.LuisResult analysisResult)
         {
+            string Message;
+            GetResult(analysisResult, out Message);
+            return Message;
+        }
+
+        /// 判斷User查詢內容(包含Greeting)
+        /// <summary>
+        /// 判斷User查詢內容(包含Greeting)
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public bool GetResult(Microsoft.Cognitive.LUIS.LuisResult analysisResult, out string ReplyMessage)
+        {
             string Default = "很抱歉,無法解析你所問的問題";
+            ReplyMessage = Default;
             if (analysisResult == null)
             {
-                return Default;
+                return false;
             }
 
             var intent = analysisResult.TopScoringIntent;
@@ -68,6 +82,11 @@ namespace botApi.Models
             try
             {
                 //TODO 要用設計模式比較好
+                if (intent.Name == "Greeting")
+                {
+                    ReplyMessage = "你好";
+                    return true;
+                }
                 if (intent.Name == "匯率查詢")
                 {
                     string CurName;
@@ -78,7 +97,7 @@ namespace botApi.Models
                     }
                     else
                     {
-                        return Default;
+                        return false;
                     }
                     if (enitiesDictinary.TryGetValue("ExDate", out entitiesCollection))
                     {
@@ -88,16 +107,16 @@ namespace botApi.Models
                     {
                         ExDate = DateTime.Today;
                     }
-                    return GetCurrencyExRate(CurName, ExDate);
+                    ReplyMessage = GetCurrencyExRate(CurName, ExDate);
+                    return false;
                 }
-                else
-                {
-                    return Default;
-                }
+
+                return false;
             }
             catch (Exception ex)
             {
-                return Default;
+                ReplyMessage = ex.Message;
+                return false;
             }
         }
 
