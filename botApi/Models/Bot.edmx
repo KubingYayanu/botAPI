@@ -23,6 +23,29 @@
           <Property Name="ChannelID" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
         </EntityType>
+        <EntityType Name="BotTemplateAction">
+          <Key>
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="Seq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TemplateSeq" Type="int" />
+          <Property Name="type" Type="nvarchar" MaxLength="50" />
+          <Property Name="label" Type="nvarchar" MaxLength="50" />
+          <Property Name="data" Type="nvarchar" MaxLength="300" />
+          <Property Name="text" Type="nvarchar" MaxLength="300" />
+          <Property Name="url" Type="nvarchar" MaxLength="300" />
+        </EntityType>
+        <EntityType Name="BotTemplateMessage">
+          <Key>
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="Seq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BotSeq" Type="int" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="TemplateURL" Type="nvarchar" MaxLength="100" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="Text" Type="nvarchar" MaxLength="60" />
+        </EntityType>
         <EntityType Name="CurInfo">
           <Key>
             <PropertyRef Name="CurChtName" />
@@ -63,6 +86,8 @@
           <Property Name="LogContent" Type="nvarchar(max)" />
         </EntityType>
         <EntityContainer Name="BotModelStoreContainer">
+          <EntitySet Name="BotTemplateAction" EntityType="Self.BotTemplateAction" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BotTemplateMessage" EntityType="Self.BotTemplateMessage" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CurInfo" EntityType="Self.CurInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="NLPInfo" EntityType="Self.NLPInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RequestLog" EntityType="Self.RequestLog" Schema="dbo" store:Type="Tables" />
@@ -110,6 +135,8 @@
           <EntitySet Name="NLPInfo" EntityType="BotModel.NLPInfo" />
           <EntitySet Name="CurInfo" EntityType="BotModel.CurInfo" />
           <EntitySet Name="ExRate" EntityType="BotModel.ExRate" />
+          <EntitySet Name="BotTemplateAction" EntityType="BotModel.BotTemplateAction" />
+          <EntitySet Name="BotTemplateMessage" EntityType="BotModel.BotTemplateMessage" />
         </EntityContainer>
         <EntityType Name="RequestLog">
           <Key>
@@ -147,6 +174,29 @@
           <Property Name="Cur" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="true" />
           <Property Name="ExBRate" Type="Decimal" Nullable="false" Precision="8" Scale="5" />
           <Property Name="ExSRate" Type="Decimal" Nullable="false" Precision="8" Scale="5" />
+        </EntityType>
+        <EntityType Name="BotTemplateAction">
+          <Key>
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="Seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TemplateSeq" Type="Int32" />
+          <Property Name="type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="label" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="data" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="text" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="url" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="BotTemplateMessage">
+          <Key>
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="Seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BotSeq" Type="Int32" Nullable="false" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TemplateURL" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Text" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -202,6 +252,31 @@
                 <ScalarProperty Name="ExBRate" ColumnName="ExBRate" />
                 <ScalarProperty Name="Cur" ColumnName="Cur" />
                 <ScalarProperty Name="ExDate" ColumnName="ExDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BotTemplateAction">
+            <EntityTypeMapping TypeName="BotModel.BotTemplateAction">
+              <MappingFragment StoreEntitySet="BotTemplateAction">
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="text" ColumnName="text" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="label" ColumnName="label" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="TemplateSeq" ColumnName="TemplateSeq" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BotTemplateMessage">
+            <EntityTypeMapping TypeName="BotModel.BotTemplateMessage">
+              <MappingFragment StoreEntitySet="BotTemplateMessage">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="TemplateURL" ColumnName="TemplateURL" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="BotSeq" ColumnName="BotSeq" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

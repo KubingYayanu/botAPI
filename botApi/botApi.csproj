@@ -171,6 +171,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineBotController.cs" />
     <Compile Include="Controllers\LineBotWithLUISController.cs" />
+    <Compile Include="Controllers\LineBotWithTemplateMessage.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -193,12 +194,19 @@
       <DependentUpon>Bot.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\BotRepository.cs" />
+    <Compile Include="Models\BotTemplateAction.cs">
+      <DependentUpon>Bot.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BotTemplateMessage.cs">
+      <DependentUpon>Bot.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\CurInfo.cs">
       <DependentUpon>Bot.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ExRate.cs">
       <DependentUpon>Bot.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\LineRepository.cs" />
     <Compile Include="Models\LUIS\entity.cs" />
     <Compile Include="Models\HttpClientHelper.cs" />
     <Compile Include="Models\LUIS\intent.cs" />
