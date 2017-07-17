@@ -171,11 +171,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LineBotController.cs" />
     <Compile Include="Controllers\LineBotWithLUISController.cs" />
-<<<<<<< master
     <Compile Include="Controllers\LineBotWithTemplateMessageController.cs" />
-=======
-    <Compile Include="Controllers\LineBotWithTemplateMessage.cs" />
->>>>>>> 新增CarouselTemplate
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
