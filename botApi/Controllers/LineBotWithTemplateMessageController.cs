@@ -36,7 +36,7 @@ namespace botApi.Controllers
               
                 if (isGreeting)
                 {
-                    CarouselTemplate ct = LineRepository.GetButtonTemplateMessage("c") as CarouselTemplate;
+                    CarouselTemplate ct = LineRepository.GetButtonTemplateMessage("Carousel") as CarouselTemplate;
                     var result = Utility.PushTemplateMessage(RequestBody.events[0].source.userId
                                                             , ct
                                                             , ChannelAccessToken);
