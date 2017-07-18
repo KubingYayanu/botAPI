@@ -64,7 +64,7 @@ namespace botApi.Models
 SELECT A.*
   FROM dbo.BotTemplateMessage A
  INNER JOIN dbo.BotData B 
-    ON A.BotSeq = BotSeq
+    ON A.BotSeq = B.BotSeq
  WHERE B.BotName = 'LINE' 
    AND A.Type = 'Menu'" ,  "");
 
