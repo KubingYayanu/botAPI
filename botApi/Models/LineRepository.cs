@@ -64,12 +64,12 @@ namespace botApi.Models
 SELECT A.*
   FROM dbo.BotTemplateMessage A
  INNER JOIN dbo.BotData B 
-    ON A.BotSeq = BotSeq
+    ON A.BotSeq = B.BotSeq
  WHERE B.BotName = 'LINE' 
    AND A.Type = 'Menu'" ,  "");
 
             CarouselTemplate ct = new CarouselTemplate();
-            ct.altText = "This is a RBot Carousel Title";
+            ct.altText = "RBot的CarouselMenu";
             ct.columns = new List<Column>();
             foreach (var message in TemplateMessages)
             {
@@ -90,7 +90,7 @@ SELECT A.*
                         postbackAction.text = action.text;
                         c.actions.Add(postbackAction);
                     }
-                    else if (action.type == "url")
+                    else if (action.type == "uri")
                     {
                         UriActon uriAction = new UriActon();
                         uriAction.label = action.label;
